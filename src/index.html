@@ -2,12 +2,66 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>AngularDemo</title>
+  <title>Angular Demo</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
 <body>
   <app-root></app-root>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
+  <script type='text/javascript'>
+    var Countly = Countly || {};
+    Countly.q = Countly.q || [];
+    Countly.app_key = "bc31a3c4798f09ed03d205985fbedfa814d0e805";
+    
+    Countly.url = "https://babyscripts.count.ly";
+    Countly.q.push(['track_sessions']);
+
+    let url = window.location.href;
+
+    ['click','popstate', 'onload'].forEach( evt =>
+      window.addEventListener(evt, function () {
+        requestAnimationFrame(()=>{
+          if (url !== location.href) {
+            Countly.q.push(['track_pageview',location.pathname+location.hash]);
+          }
+          url = location.href;
+        });
+      }, true)
+    );
+
+
+    // window.addEventListener('hashchange', function(e) {
+    //   console.log('hashchange')
+    //   Countly.q.push(['track_pageview',location.pathname+location.hash]);
+    // });
+    
+    // window.addEventListener('popstate', function(e) {
+    //   console.log('popstate')
+    //   Countly.q.push(['track_pageview',location.pathname+location.hash]);
+    // });
+
+    // $(window).bind('hashchange', function() {
+    //   console.log('hashchange')
+    //   Countly.q.push(['track_pageview',location.pathname+location.hash]);
+    // });
+
+    // Uncomment the following line to track web heatmaps (Enterprise Edition)
+    // Countly.q.push(['track_clicks']);
+    
+    // Uncomment the following line to track web scrollmaps (Enterprise Edition)
+    // Countly.q.push(['track_scrolls']);
+    
+    // Load Countly script asynchronously
+    (function() {
+    var cly = document.createElement('script'); cly.type = 'text/javascript';
+    cly.async = true;
+    cly.src = 'https://cdn.jsdelivr.net/npm/countly-sdk-web@latest/lib/countly.min.js';
+    cly.onload = function(){Countly.init()};
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(cly, s);
+    })();
+  </script>
+
 </body>
 </html>
